@@ -1,6 +1,6 @@
 import json
 import boto3
-
+from botocore.exceptions import ClientError
 dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-08-10')
 
 def lambda_handler(event, context):
@@ -9,7 +9,7 @@ def lambda_handler(event, context):
             return {
             "id": item["id"]["S"],
             "courseName": item["courseName"]["S"],
-            "duration (month)": item["duration (month)"]["N"]
+            "duration": item["duration"]["N"]
             }
         
         all_items = []
@@ -38,8 +38,8 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': pretty_body
         }
-    except Exception as e:
+    except ClientError as e:
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
+            'body': json.dumps({'error': e.response['Error']['Message']})
         }

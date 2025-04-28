@@ -22,7 +22,7 @@ def lambda_handler(event, context):
         
 import json
 import boto3
-
+from botocore.exceptions import ClientError
 dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-08-10')
 
 def lambda_handler(event, context):
@@ -60,9 +60,9 @@ def lambda_handler(event, context):
             'body': pretty_body
         }
         
-    except Exception as e:
+    except ClientError  as e:
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
+            'body': json.dumps({'error': e.response['Error']['Message']})
         }
 
