@@ -1,25 +1,3 @@
-""" import json
-import boto3
-
-# Створюємо клієнта DynamoDB
-dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-08-10')
-
-def lambda_handler(event, context):
-    try:
-        all_items = []
-        response = dynamodb.scan(
-            TableName='authors'
-        )
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'authors': all_items})
-        }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        } """
-        
 import json
 import boto3
 
@@ -32,7 +10,7 @@ def lambda_handler(event, context):
 
         while True:
             scan_params = {
-                'TableName': 'authors'
+                'TableName': 'courses'
             }
 
             if last_evaluated_key:
@@ -44,17 +22,15 @@ def lambda_handler(event, context):
 
             if not last_evaluated_key:
                 break
-            
+                
         pretty_body = json.dumps(all_items, indent = 4, ensure_ascii=False)
 
         return {
             'statusCode': 200,
             'body': pretty_body
         }
-        
     except Exception as e:
         return {
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-
