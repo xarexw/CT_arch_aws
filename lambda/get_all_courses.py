@@ -5,6 +5,13 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
+        def transform_body(item):
+            return {
+            "id": item["id"]["S"],
+            "courseName": item["courseName"]["S"],
+            "duration (month)": item["duration (month)"]["N"]
+            }
+        
         all_items = []
         last_evaluated_key = None
 
@@ -22,8 +29,10 @@ def lambda_handler(event, context):
 
             if not last_evaluated_key:
                 break
+            
+        transformed_items = [transform_body(item) for item in all_items]
                 
-        pretty_body = json.dumps(all_items, indent = 4, ensure_ascii=False)
+        pretty_body = json.dumps(transformed_items, indent = 4, ensure_ascii=False)
 
         return {
             'statusCode': 200,
