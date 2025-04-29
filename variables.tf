@@ -40,15 +40,3 @@ variable "gsi_projection_types" {
   description = "Map of projection types for GSI"
   type        = map(string)
 }
-
-variable "gsi_read_capacity" {
-  description = "Read capacity for GSI"
-  type        = number
-  default     = 5
-}
-
-variable "gsi_write_capacity" {
-  description = "Write capacity for GSI"
-  type        = number
-  default     = 5
-}

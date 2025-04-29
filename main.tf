@@ -58,20 +58,20 @@ module "delete_course" {
 }
 
 module "courses_table" {
-  source        = "./modules/dynamodb"
+  source        = "./modules/dynamodb_courses"
   table_name    = "courses"
   hash_key      = "id"
   hash_key_type = "S"
   environment   = "dev"
   course_name = "course_name"
-  course_duration = 10
+  course_duration = "course_duration"
   gsi_names           = var.gsi_names      
   gsi_hash_keys       = var.gsi_hash_keys    
-  gsi_projection_types = var.gsi_projection_types 
+  gsi_projection_types = var.gsi_projection_types
 }
 
 module "authors_table" {
-  source        = "./modules/dynamodb"
+  source        = "./modules/dynamodb_authors"
   table_name    = "authors"
   hash_key      = "id"
   hash_key_type = "S"
