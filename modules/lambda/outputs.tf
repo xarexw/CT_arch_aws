@@ -1,4 +1,4 @@
-output "get_all_authors_lambda_arn" {
+/* output "get_all_authors_lambda_arn" {
   description = "ARN of the 'get_all_authors' Lambda function"
   value       = module.get_all_authors.aws_lambda_function.this.arn
 }
@@ -26,4 +26,10 @@ output "update_course_lambda_arn" {
 output "delete_course_lambda_arn" {
   description = "ARN of the 'delete_course' Lambda function"
   value       = module.delete_course.aws_lambda_function.this.arn
+} */
+
+output "lambda_function_arn" {
+  description = "ARN of the created Lambda function"
+  value = aws_lambda_function.this.arn
 }
+

@@ -25,3 +25,30 @@ variable "stage" {
   description = "The stage of the deployment (e.g., dev, prod)"
   type        = string
 }
+
+variable "gsi_names" {
+  description = "Map of GSI names"
+  type        = map(string)
+}
+
+variable "gsi_hash_keys" {
+  description = "Map of hash keys for GSI"
+  type        = map(string)
+}
+
+variable "gsi_projection_types" {
+  description = "Map of projection types for GSI"
+  type        = map(string)
+}
+
+variable "gsi_read_capacity" {
+  description = "Read capacity for GSI"
+  type        = number
+  default     = 5
+}
+
+variable "gsi_write_capacity" {
+  description = "Write capacity for GSI"
+  type        = number
+  default     = 5
+}

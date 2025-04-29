@@ -64,7 +64,10 @@ module "courses_table" {
   hash_key_type = "S"
   environment   = "dev"
   course_name = "course_name"
-  duration = 10
+  course_duration = 10
+  gsi_names           = var.gsi_names      
+  gsi_hash_keys       = var.gsi_hash_keys    
+  gsi_projection_types = var.gsi_projection_types 
 }
 
 module "authors_table" {
@@ -75,4 +78,7 @@ module "authors_table" {
   environment   = "dev"
   first_name = "first_name"
   last_name = "last_name"
+  gsi_names           = var.gsi_names
+  gsi_hash_keys       = var.gsi_hash_keys
+  gsi_projection_types = var.gsi_projection_types
 }

@@ -20,24 +20,50 @@ variable "environment" {
 variable "first_name" {
   type        = string
   description = "First name of the author"
-  default = ""
+  default = null
 }
 
 variable "last_name" {
   type        = string
   description = "Last name of the author"
-  default = ""
+  default = null
 }
 
 variable "course_name" {
   type        = string
   description = "Name of the course"
-  default = ""
+  default = null
 }
 
-variable "duration" {
+variable "course_duration" {
   type        = number
   description = "Duration of the course in hours"
   default = null
 }
 
+variable "gsi_names" {
+  description = "Map of GSI names"
+  type        = map(string)
+}
+
+variable "gsi_hash_keys" {
+  description = "Map of hash keys for GSI"
+  type        = map(string)
+}
+
+variable "gsi_projection_types" {
+  description = "Map of projection types for GSI"
+  type        = map(string)
+}
+
+variable "gsi_read_capacity" {
+  description = "Read capacity for GSI"
+  type        = number
+  default     = 5
+}
+
+variable "gsi_write_capacity" {
+  description = "Write capacity for GSI"
+  type        = number
+  default     = 5
+}
