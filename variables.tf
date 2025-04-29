@@ -1,0 +1,27 @@
+# variables.tf
+variable "aws_region" {
+  description = "AWS region where resources will be created"
+  type        = string
+  default     = "eu-north-1"
+}
+
+variable "project_name" {
+  description = "Name of the project"
+  type        = string
+  default     = "AWS_CT_Platform"
+}
+
+variable "environment" {
+  description = "The environment for the project (e.g., univercity, production)"
+  type        = string
+}
+
+variable "namespace" {
+  description = "The namespace for the project (e.g., 2025)"
+  type        = string
+}
+
+variable "stage" {
+  description = "The stage of the deployment (e.g., dev, prod)"
+  type        = string
+}
