@@ -65,3 +65,46 @@ module "authors_table" {
   gsi_hash_keys       = var.gsi_hash_keys
   gsi_projection_types = var.gsi_projection_types
 }
+
+module "api_gateway" {
+  source   = "./modules/api_gateway"
+  api_name = "my-app-api"
+
+  lambda_integrations = [
+    {
+      lambda_arn = aws_lambda_function.get_all_courses.invoke_arn
+      resource   = "/course"
+      method     = "GET"
+    },
+    {
+      lambda_arn = aws_lambda_function.get_all_authors.invoke_arn
+      resource   = "/authors"
+      method     = "GET"
+    },
+
+        {
+      lambda_arn = aws_lambda_function.post_course.invoke_arn
+      resource   = "/course"
+      method     = "POST"
+    },
+
+    {
+      lambda_arn = aws_lambda_function.get_course_by_id.invoke_arn
+      resource   = "/course/{course-id}"
+      method     = "GET"
+    },
+
+        {
+      lambda_arn = aws_lambda_function.update_course.invoke_arn
+      resource   = "/course/{course-id}"
+      method     = "PUT"
+    },
+
+        {
+      lambda_arn = aws_lambda_function.delete_course.invoke_arn
+      resource   = "/course/{course-id}"
+      method     = "DELETE"
+    },
+
+  ]
+}
