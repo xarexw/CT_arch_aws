@@ -5,9 +5,11 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
-        course_name = event.get('course_name')
-        course_duration = event.get('duration')
-        course_id = event.get('course_id', 'default-course-id')
+        body = json.loads(event['body'])
+
+        course_id = body.get('course_id')
+        course_name = body.get('course_name')
+        course_duration = body.get('course_duration')
 
         if not course_id or not course_name or not course_duration:
             return {
@@ -28,10 +30,8 @@ def lambda_handler(event, context):
             Key={
                 'id': {'S': course_id}
             },
-            UpdateExpression='SET courseName = :name, #duration = :duration',  # '#duration - саме моя змінна, розіменував в ExpressionAttributeNames'
-            ExpressionAttributeNames={
-            '#duration': 'duration'
-        },
+            UpdateExpression='SET courseName = :name, course_duration = :duration',
+
             ExpressionAttributeValues={
                 ':name': {'S': course_name},
                 ':duration': {'N': str(course_duration)}

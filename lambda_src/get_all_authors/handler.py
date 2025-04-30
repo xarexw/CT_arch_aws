@@ -57,12 +57,18 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
-            'body': pretty_body
+            'body': pretty_body,
+            'headers': {
+                'Content-Type': 'application/json'
+            }
         }
-        
-    except ClientError  as e:
+
+    except ClientError as e:
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': e.response['Error']['Message']})
+            'body': json.dumps({'error': e.response['Error']['Message']}),
+            'headers': {
+                'Content-Type': 'application/json'
+            }
         }
 

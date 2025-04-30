@@ -1,4 +1,4 @@
-variable "context" {
+/* variable "context" {
   type = any
   default = {
     enabled             = true
@@ -225,4 +225,4 @@ variable "descriptor_formats" {
     identical to how they appear in `id`.
     Default is `{}` (`descriptors` output will be empty).
     EOT
-}
+} */

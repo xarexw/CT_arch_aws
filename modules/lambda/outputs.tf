@@ -35,6 +35,6 @@ output "lambda_function_arn" {
 
 output "lambda_label_id" {
   description = "Generated label-based ID"
-  value       = module.label.id     #null-label
+  value       = aws_lambda_function.this.arn  
 }
 

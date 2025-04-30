@@ -5,7 +5,9 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
-        course_id = event.get('course_id', 'default-course-id')
+        body = json.loads(event['body'])
+
+        course_id = body.get('course_id')
 
         if not course_id:
             return {

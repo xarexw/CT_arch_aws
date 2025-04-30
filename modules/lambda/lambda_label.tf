@@ -1,14 +1,14 @@
-module "lambda_label" {
+/* module "lambda_label" {
   source   = "cloudposse/label/null"
   version = "0.25.0"
 
   namespace  = "arch"
   stage      = "dev"
-  name       = var.lambda_name
+  name       = "lambda"
   attributes = ["lambda"]
   delimiter  = "-"
 
   tags = {
     Project = "courses-api"
   }
-}
+} */

@@ -5,9 +5,11 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
-        course_id = event.get('course_id')
-        course_name = event.get('course_name')
-        course_duration = event.get('duration')
+        body = json.loads(event['body'])
+
+        course_id = body.get('course_id')
+        course_name = body.get('course_name')
+        course_duration = body.get('course_duration')
 
         if not course_id or not course_name or not course_duration:
             return {
@@ -32,8 +34,8 @@ def lambda_handler(event, context):
             TableName='courses',
             Item={
                 'id': {'S': course_id},
-                'courseName': {'S': course_name},
-                'duration': {'N': str(course_duration)}
+                'course_name': {'S': course_name},
+                'course_duration': {'N': str(course_duration)}
             }
         )
 
