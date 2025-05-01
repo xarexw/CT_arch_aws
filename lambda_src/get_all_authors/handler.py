@@ -29,10 +29,11 @@ def lambda_handler(event, context):
     try:
         def transform_body(item):
             return {
-            "id": item["id"]["S"],
-            "firstName": item["firstName"]["S"],
-            "lastName": item["lastName"]["S"]
+                "id": item.get("id", {}).get("S", ""),
+                "firstName": item.get("firstName", {}).get("S", ""),
+                "lastName": item.get("lastName", {}).get("S", "")
             }
+
         
         all_items = []
         last_evaluated_key = None

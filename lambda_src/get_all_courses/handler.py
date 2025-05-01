@@ -6,13 +6,25 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
+        authors_response = dynamodb.scan(TableName='authors')
+        authors = {
+            item['id']['S']: f"{item.get('firstName', {}).get('S', '')} {item.get('lastName', {}).get('S', '')}".strip()
+            for item in authors_response.get('Items', [])
+        }
+
+
         def transform_body(item):
+            author_id = item.get('author_id', {}).get('S', None)
+            author_name = authors.get(author_id, 'Unknown Author')
+
             return {
-                "id": item["id"]["S"],
-                "course_name": item["course_name"]["S"],
-                "course_duration": item["course_duration"]["N"]
+                "Id": item.get("id", {}).get("S", ""),
+                "Title": item.get("course_name", {}).get("S", ""),
+                "Author": author_name,
+                "Category": item.get("category", {}).get("S", "General"),
+                "Length": item.get("course_duration", {}).get("N", "0")
             }
-        
+
         all_items = []
         last_evaluated_key = None
 
@@ -32,12 +44,10 @@ def lambda_handler(event, context):
                 break
 
         transformed_items = [transform_body(item) for item in all_items]
-                
-        pretty_body = json.dumps(transformed_items, indent=4, ensure_ascii=False)
 
         return {
             'statusCode': 200,
-            'body': pretty_body,
+            'body': json.dumps(transformed_items),
             'headers': {
                 'Content-Type': 'application/json'
             }
@@ -51,3 +61,4 @@ def lambda_handler(event, context):
                 'Content-Type': 'application/json'
             }
         }
+
