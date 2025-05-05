@@ -45,6 +45,11 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
+            'headers': {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
+            },
             'body': json.dumps({'message': 'Course updated successfully'})
         }
 
@@ -64,4 +69,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-

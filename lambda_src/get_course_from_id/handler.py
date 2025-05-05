@@ -46,7 +46,10 @@ def lambda_handler(event, context):
 
                 if 'Item' in author_response:
                     author_item = author_response['Item']
-                    author_name = author_item.get('author_name', {}).get('S', "Unknown Author")
+                    author_name = (
+                        f"{author_item.get('firstName', {}).get('S', '')} "
+                        f"{author_item.get('lastName', {}).get('S', '')}"
+                    ).strip() or "Unknown Author"
                 else:
                     author_name = "Unknown Author"
             else:
@@ -57,6 +60,11 @@ def lambda_handler(event, context):
 
             return {
                 'statusCode': 200,
+                'headers': {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
+            },
                 'body': pretty_body
             }
         else:
@@ -80,5 +88,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-
-

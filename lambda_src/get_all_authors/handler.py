@@ -1,25 +1,3 @@
-""" import json
-import boto3
-
-# Створюємо клієнта DynamoDB
-dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-08-10')
-
-def lambda_handler(event, context):
-    try:
-        all_items = []
-        response = dynamodb.scan(
-            TableName='authors'
-        )
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'authors': all_items})
-        }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        } """
-        
 import json
 import boto3
 from botocore.exceptions import ClientError
@@ -60,7 +38,10 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': pretty_body,
             'headers': {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': '*'
             }
         }
 

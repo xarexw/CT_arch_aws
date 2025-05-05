@@ -18,11 +18,11 @@ def lambda_handler(event, context):
             author_name = authors.get(author_id, 'Unknown Author')
 
             return {
-                "Id": item.get("id", {}).get("S", ""),
-                "Title": item.get("course_name", {}).get("S", ""),
-                "Author": author_name,
-                "Category": item.get("category", {}).get("S", "General"),
-                "Length": item.get("course_duration", {}).get("N", "0")
+                "id": item.get("id", {}).get("S", ""),
+                "title": item.get("course_name", {}).get("S", ""),
+                "authorId": author_name,
+                "category": item.get("category", {}).get("S", "General"),
+                "length": item.get("course_duration", {}).get("N", "0")
             }
 
         all_items = []
@@ -49,7 +49,10 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps(transformed_items),
             'headers': {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': '*'
             }
         }
 
@@ -61,4 +64,3 @@ def lambda_handler(event, context):
                 'Content-Type': 'application/json'
             }
         }
-

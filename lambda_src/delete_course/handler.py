@@ -6,10 +6,8 @@ dynamodb = boto3.client('dynamodb', region_name='eu-north-1', api_version='2012-
 
 def lambda_handler(event, context):
     try:
-        body = json.loads(event['body'])
-
-        course_id = body.get('course_id')
-
+        course_id = event.get('pathParameters', {}).get('course-id')
+        print(json.dumps(event))
         if not course_id:
             return {
                 'statusCode': 400,
@@ -33,6 +31,11 @@ def lambda_handler(event, context):
 
             return {
                 'statusCode': 200,
+                'headers': {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
+                },
                 'body': json.dumps({'message': 'Course deleted successfully'})
             }
         else:
@@ -58,5 +61,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-
-

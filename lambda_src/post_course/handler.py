@@ -56,7 +56,12 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 201,
-            'body': json.dumps({'message': 'Course created successfully'})
+            'headers': {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
+            },
+            'body': json.dumps({'message': 'Course created successfully'}),
         }
 
     except ClientError as e:
@@ -70,4 +75,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-
