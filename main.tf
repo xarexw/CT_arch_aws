@@ -108,3 +108,8 @@ module "api_gateway" {
 
   ]
 }
+
+module "s3_bucket" {
+  source      = "./modules/s3_bucket"
+  bucket_name = "easycourse-bucket"
+}
