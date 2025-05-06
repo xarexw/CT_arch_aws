@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "easycourse" {
-  bucket = "easycourse-bucket"
+resource "aws_s3_bucket" "easycoursetf" {
+  bucket = "easycoursetf"
 }
 
-resource "aws_s3_bucket_public_access_block" "easycourse" {
-  bucket = aws_s3_bucket.easycourse.id
+resource "aws_s3_bucket_public_access_block" "easycoursetf" {
+  bucket = aws_s3_bucket.easycoursetf.id
 
   block_public_acls       = false
   block_public_policy     = false
@@ -12,7 +12,7 @@ resource "aws_s3_bucket_public_access_block" "easycourse" {
 }
 
 resource "aws_s3_bucket_website_configuration" "website" {
-  bucket = aws_s3_bucket.easycourse.id
+  bucket = aws_s3_bucket.easycoursetf.id
 
   index_document {
     suffix = "index.html"
@@ -24,7 +24,7 @@ resource "aws_s3_bucket_website_configuration" "website" {
 }
 
 resource "aws_s3_bucket_policy" "public_read" {
-  bucket = aws_s3_bucket.easycourse.id
+  bucket = aws_s3_bucket.easycoursetf.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_policy" "public_read" {
         Effect    = "Allow"
         Principal = "*"
         Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.easycourse.arn}/*"
+        Resource  = "${aws_s3_bucket.easycoursetf.arn}/*"
       }
     ]
   })

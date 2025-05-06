@@ -42,7 +42,7 @@ module "delete_course" {
 
 module "courses_table" {
   source        = "./modules/dynamodb_courses"
-  table_name    = "courses"
+  table_name    = "coursestf"
   hash_key      = "id"
   hash_key_type = "S"
   environment   = "dev"
@@ -55,7 +55,7 @@ module "courses_table" {
 
 module "authors_table" {
   source        = "./modules/dynamodb_authors"
-  table_name    = "authors"
+  table_name    = "authorstf"
   hash_key      = "id"
   hash_key_type = "S"
   environment   = "dev"
@@ -66,50 +66,82 @@ module "authors_table" {
   gsi_projection_types = var.gsi_projection_types
 }
 
-module "api_gateway" {
-  source   = "./modules/api_gateway"
-  api_name = "my-app-api"
+#Використання інтеграцій (складніший код, треба динаміка і важчий дебаг)
+/* module "api_gateway" {
+  source = "./modules/api_gateway"
+
+  api_name        = "course-api"
+  api_description = "API for courses and authors"
+  stage_name      = "dev_v1"
 
   lambda_integrations = [
     {
-      lambda_arn = aws_lambda_function.get_all_courses.invoke_arn
-      resource   = "/course"
-      method     = "GET"
-    },
-    {
-      lambda_arn = aws_lambda_function.get_all_authors.invoke_arn
       resource   = "/authors"
       method     = "GET"
+      lambda_arn = aws_lambda_function.get_all_authors.invoke_arn
     },
-
-        {
-      lambda_arn = aws_lambda_function.post_course.invoke_arn
-      resource   = "/course"
-      method     = "POST"
-    },
-
     {
-      lambda_arn = aws_lambda_function.get_course_by_id.invoke_arn
-      resource   = "/course/{course-id}"
+      resource   = "/courses"
       method     = "GET"
+      lambda_arn = aws_lambda_function.get_all_courses.invoke_arn
     },
-
-        {
-      lambda_arn = aws_lambda_function.update_course.invoke_arn
-      resource   = "/course/{course-id}"
+    {
+      resource   = "/courses"
+      method     = "POST"
+      lambda_arn = aws_lambda_function.post_course.invoke_arn
+    },
+    {
+      resource   = "/courses/{id}"
+      method     = "GET"
+      lambda_arn = aws_lambda_function.get_course_by_id.invoke_arn
+    },
+    {
+      resource   = "/courses/{id}"
       method     = "PUT"
+      lambda_arn = aws_lambda_function.update_course.invoke_arn
     },
-
-        {
-      lambda_arn = aws_lambda_function.delete_course.invoke_arn
-      resource   = "/course/{course-id}"
+    {
+      resource   = "/courses/{id}"
       method     = "DELETE"
+      lambda_arn = aws_lambda_function.delete_course.invoke_arn
     },
-
   ]
+} */
+
+
+#чіткіші шляхи, без інтеграцій (але це статика)
+/* module "api_gateway" {
+  source = "./modules/api_gateway"
+
+  api_name        = "course-api"
+  api_description = "API for courses and authors"
+  stage_name      = "dev_v1"
+
+  lambda_arn_authors_get      = aws_lambda_function.get_all_authors.invoke_arn
+  lambda_arn_course_get       = aws_lambda_function.get_all_courses.invoke_arn
+  lambda_arn_course_post      = aws_lambda_function.post_course.invoke_arn
+  lambda_arn_course_get_by_id = aws_lambda_function.get_course_by_id.invoke_arn
+  lambda_arn_course_update    = aws_lambda_function.update_course.invoke_arn
+  lambda_arn_course_delete    = aws_lambda_function.delete_course.invoke_arn
+} */
+
+module "api_gateway" {
+  source = "./modules/api_gateway"
+  api_name        = "course-api_tf"
+  api_description = "API for courses and authors"
+  stage_name      = "dev_v1"
+
+  lambda_arn_authors_get      = module.get_all_authors.lambda_arn
+  lambda_arn_course_get       = module.get_all_courses.lambda_arn
+  lambda_arn_course_post      = module.post_course.lambda_arn
+  lambda_arn_course_get_from_id = module.get_course_from_id.lambda_arn
+  lambda_arn_course_update    = module.update_course.lambda_arn
+  lambda_arn_course_delete    = module.delete_course.lambda_arn
 }
+
+
 
 module "s3_bucket" {
   source      = "./modules/s3_bucket"
-  bucket_name = "easycourse-bucket"
+  bucket_name = "easycoursetf"
 }

@@ -1,17 +1,44 @@
 variable "api_name" {
-  description = "The name of the REST API"
-  type        = string
+  type = string
 }
-
-variable "lambda_integrations" {
-  description = "List of lambda integrations with path and method"
+variable "api_description" {
+  type    = string
+  default = ""
+}
+variable "stage_name" {
+  type    = string
+  default = "dev_v1"
+}
+/* variable "lambda_integrations" {
+  description = "List of { lambda_arn, resource, method } for each endpoint"
   type = list(object({
     lambda_arn = string
     resource   = string
     method     = string
   }))
+} */
+
+variable "lambda_arn_authors_get" {
+  type = string
 }
 
-variable "allowed_methods" {
-  default = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+variable "lambda_arn_course_get" {
+  type = string
 }
+
+variable "lambda_arn_course_post" {
+  type = string
+}
+
+variable "lambda_arn_course_get_from_id" {
+  type = string
+}
+
+variable "lambda_arn_course_update" {
+  type = string
+}
+
+variable "lambda_arn_course_delete" {
+  type = string
+}
+

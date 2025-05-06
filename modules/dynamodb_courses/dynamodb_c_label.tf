@@ -5,7 +5,7 @@ module "label" {
   namespace   = "courseapi"
   environment = "prod"
   stage       = "dynamodb"
-  name        = "courses"
+  name        = "coursestf"
   delimiter   = "-"
   attributes  = []
 /*   tags        = var.tags */
