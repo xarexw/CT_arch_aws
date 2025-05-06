@@ -41,3 +41,9 @@ output "lambda_label_id" {
   description = "Generated label-based ID"
   value       = aws_lambda_function.this.id
 }
+
+output "lambda_function_name" {
+  description = "Name of the Lambda function"
+  value       = aws_lambda_function.this.function_name
+}
+

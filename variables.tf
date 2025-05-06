@@ -43,3 +43,13 @@ variable "gsi_projection_types" {
   description = "Map of projection types for GSI"
   type        = map(string)
 }
+
+variable "alert_email" {
+  description = "Email to receive SNS notifications"
+  type        = string
+}
+
+variable "slack_webhook_url" {
+  description = "Slack Incoming Webhook URL"
+  type        = string
+}

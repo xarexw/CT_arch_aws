@@ -52,3 +52,13 @@ output "delete_course_lambda_arn" {
   description = "ARN of the 'delete_course' Lambda function"
   value       = module.delete_course.lambda_function_arn
 }
+
+output "lambda_function_arn" {
+  description = "ARN of the SNS->Slack Lambda function"
+  value       = module.sns_to_slack.lambda_function_arn
+}
+
+output "sns_topic_arn" {
+  description = "ARN of the SNS alerts topic"
+  value       = aws_sns_topic.alerts_topic.arn
+}
